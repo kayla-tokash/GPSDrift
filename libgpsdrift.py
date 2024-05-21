@@ -49,7 +49,7 @@ class GPSDrift():
         wind_list = []
         for i in range(0, num_hour_offsets+1):
             params = {"lat":latitude, "lon":longitude, "hourOffset":i}
-            response = requests.get(WIND_SOURCE_URL, kwargs=params)
+            response = requests.get(WIND_SOURCE_URL, params=params)
             wind_list.append(params.update({"response":response}))
         return wind_list
 
