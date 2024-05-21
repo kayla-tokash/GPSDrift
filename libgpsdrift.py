@@ -10,6 +10,15 @@ class GPSDrift():
 
     def __init__(self, launchsite: tuple[float], aero_profile: tuple[float], main_descent: float,\
             drogue_descent: float = None):
+        """
+        Initializer for GPSDrift
+        ----
+        launchsite: tuple(latitude, longitude, altitude)
+        aero_profile: tuple(cross-sectional aera perpendicular to wind, coefficient of drag)
+        main_descent: negative number representing the expected descent speed on main chute
+        drogue_descent: (optional) do not set for single deployment; negative number represetning
+                        the expected descent speed on drogue chute
+        """
         self.set_launch_site(*launchsite)
         self.set_aerodynamic_profile(*aero_profile)
         self.set_main_descent_rate(main_descent)
@@ -51,9 +60,13 @@ class GPSDrift():
             raise ZeroDivisionError("x1 and x0 are equal, linear interpolation failed")
 
     def drift_distance(self, start_alt: float, end_alt: float, windspeed: float, descent_rate: float) -> float:
+        """
+        Calculate the lateral drift of the rocket on descent
+        """
         traveled_altitude = start_alt - end_alt
         descent_time = traveled_altitude / descent_rate
         return descent_time * naut_to_feet(windspeed)
 
     def naut_distance_between(self, start_lat: float, start_lon: float, end_lat: float, end_lon: float) -> list[float]:
         return haversine_distance((start_lat, start_lon), (end_lat), (end_lon))
+
