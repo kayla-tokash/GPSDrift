@@ -3,7 +3,8 @@ from pgeocode import haversine_distance
 
 WIND_SOURCE_URL="https://windsaloft.us/winds.php"
 
-naut_to_feet = lambda speed : speed*1.68781
+naut_to_feet = lambda naut: naut*1.68781
+feet_to_miles = lambda feet : feet*1.15078
 
 class GPSDrift():
     drogue_descent_rate = None
@@ -29,15 +30,18 @@ class GPSDrift():
         self.launchsite = (latitude, longitude, altitude)
 
     def set_aerodynamic_profile(self, cross_section_area: float, drag_coefficient: float):
+        # TODO Update assert with proper error checking
         assert cross_section_area > 0 and drag_coefficient > 0
         self.cross_secction_area = cross_section_area
         self.drag_coefficient = drag_coefficient
 
     def set_main_descent_rate(self, descent_speed: float):
+        # TODO Update assert with proper error checking
         assert descent_speed < 0
         self.main_descent_rate = descent_speed
 
     def set_drogue_descent_rate(self, descent_speed: float):
+        # TODO Update assert with proper error checking
         assert descent_speed < 0
         self.drogue_descent_rate = descent_speed
 
